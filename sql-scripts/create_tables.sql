@@ -23,7 +23,7 @@ CREATE TABLE service_menu (
     service_menu_id SERIAL PRIMARY KEY,
     menu_name VARCHAR(100) NOT NULL,
     service_category VARCHAR(50) NOT NULL,          -- Full Set / Refill / Removal Only
-    lash_style VARCHAR(50),                         -- Classic / Hybrid / Volume
+    lash_style VARCHAR(50) NOT NULL,                         -- Classic / Hybrid / Volume
     duration_minutes INTEGER CHECK (duration_minutes > 0),
     price NUMERIC CHECK (price > 0)
 );
