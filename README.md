@@ -1,132 +1,99 @@
 # DEV1002 (A1) - Relational Database Scripts
 
-## Overview
+## Project Overview & Purpose
 
-## Assessment Purpose & Learning Outcomes
+The purpose of this project is to demonstrate my ability to design and implement a normalised relational database (to 3NF or higher), showcasing my understanding of core database concepts and ability to work with databases at a fundamental level. This includes creating SQL scripting for creating tables, using constraints to maintain data integrity, seeding data, manipulating data and fundamental and complex data queries.
 
-This project demonstrates my ability to design and implement a normalised relational database using SQL.
-The purpose of this project is to design and implement a normalised relational database showcasing my knowledge of database design, normalisation, SQL scripting, data integrity and data manipulation at a fundamental level.
+The relational database models simplified appointment booking and payment system for a solo lash business, inspired by a personal hobby. The database includes tables for clients, appointments, service menu (junction table), service categories and lash styles (lookup tables), and payment tracking.
 
-The project is based on a Solo Lash Business Appointment System, inspired by a personal hobby I’m exploring. Designing the database around this idea gave me a chance to model realistic booking, service and payment workflows while creating a foundation that I can build on for future projects.
+## Key Learning Outcomes
 
-It is designed to demonstrate my ability to:
+This project fulfills the key learning outcomes and assessment criteria by applying the following database concepts and practices:
 
-- **Scenario Analysis:** Identify entities, relationships and business rules.
-- **Schema Design & Normalisation:** Apply 3NF normalisation to reduce redundancy and maintain data integrity.
-- **SQL Scripting**: Write SQL scripts to:
-  - Create all tables as defined in the ERD
-  - Apply appropriate constraints (PK, FK, UNIQUE, CHECK, DEFAULT, SERIAL)
-  - Seed each table with sample data for testing
-- **Data Manipulation & Querying:** Perform both fundamental and advanced SQL operations, including:
-  - CRUD operations (Create, Read, Update, Delete)
-  - Join queries across related tables
-  - Filtering and ordering results
-  - Aggregating data using functions like SUM, COUNT, AVG, etc.
-- **Relationship Modelling:** Create an Entity Relationship Diagram (ERD) that accurately reflects all entities and their relationships.
-- **Design Justifications:** Document and explain key design choices, such as the use of nullable fields, many-to-many relationships (junction table) and data validation constraints.
+### Scenario Analysis:
+
+- Identify entities, attributes, relationships and business rules.
+- Design a database with at least 5 tables including one join/junction table.
+- [Database Planning Document & Notes](./docs/project_plan.md)
+
+### Relationship Modelling:
+
+- Create an Entity Relationship Diagram (ERD) that accurately reflects all entities and their relationships.
+- Use of appropriate keys including primary and foreign keys
+- Used lookup tables to support functionality and reduce redundancy.
+- [ERD](./erd/erd.md)
+
+### Database Design & Normalisation:
+
+- Noramalise database to Third Normal Form (3NF) to reduce redundancy and maintain data integrity.
+- Ensure atomic fields and non-transitive dependencies.
+- [Database Planning Document & Notes](./docs/project_plan.md)
+
+### SQL Scripting (Used PostgreSQL v14.18):
+
+Write SQL scripts to:
+
+- Create all tables as defined in the ERD
+- Create 'seed' data in each of the tables for testing
+- Create and apply appropriate keys, integrity checks and constraints including use of:
+  - `PRIMARY KEY`, `FOREIGN KEY`, `UNIQUE`, `CHECK`, `DEFAULT`, `SERIAL`, `NOT NULL`
+- Use appropriate automated data creation such as:
+  - Use of `DEFAULT` values and auto-incrementing `SERIAL` keys
+- [Seed Data](./seed-data/create_seed_data.sql)
 
 
-## Project Structure
+### Data Manipulation & Querying:
+
+Develop and use SQL operations, including fundamental and complex queries to:
+
+- Query a table for a single record
+- Query joined tables for a single record
+- Insert a record into a table
+- Insert a record into a table with appropriate foreign-key data
+- Update a record in a table
+- Delete a record from a table
+- Order data by a specific value
+- Calculate data based on values from tables
+- Filtering data based on a specific value
+- Join queries across related tables
+- Use aggregate functions to perform calculations including:
+  -  `SUM()`, `AVERAGE()`, `MIN()`, `MAX()`, `COUNT()`
+- Develop complex queries which involve querying, filtering, grouping, aggregating, selecting and ordering of data.
+
+
+## Project Folder Structure:
 
 ```
-A1-relational-db-scripts (lash-business-database)/
-├── erd/            # ERD diagrams
-├── sql-scripts/    # SQL code
-├── seed-data/      # Sample data in SQL
-├── notes/          # Project plan
-├── README.md       # This file
-└── .gitignore      # To udpate
+A1-relational-db-scripts/
+├── erd/                # Diagrams for ERD
+├── sql-scripts/        # SQL scripting files
+├── seed-data/          # SQL seed data scripts and mock data
+├── docs/               # Project plan and doc notes
+├── README.md           # Project overview doc (this file)
+└── .gitignore          # To udpate
 ```
 
-### SQL Systems Used
+## References & Resources Used:
 
-- PostgreSQL
--
+**Online Tool to create an ERD:**
 
-## Entity Relationship Diagram (ERD)
+- [Drawio](https://www.drawio.com/)
 
+**PostgreSQL (Version 14.18) Official Documentation:**
 
-## Database Schema
+- [PostgreSQL v14.18 Main Docs](https://www.postgresql.org/docs/14/index.html)
+- [PostgreSQL Chapter 8.5. Date/Time Types](https://www.postgresql.org/docs/14/datatype-datetime.html)
+- [PostgreSQL Chapter 6. Data Manipulation](https://www.postgresql.org/docs/14/dml.html)
+- [PostgreSQL Chapter 7. Queries](https://www.postgresql.org/docs/14/queries.html)
 
-## **ERD - Entities & Attributes**
+**Information Guides & Tutorials:**
 
-Draft
-min 5x tables:
-
-### 1. **client** - Stores client's personal/contact info.
-
-- client_id (PK, SERIAL)
-- first_name (NOT NULL)
-- last_name (NOT NULL)
-- mobile_number (VARCHAR(10))
-- email (UNIQUE)
-
-**Relationships:**
-- A Client can *BOOK* many Appointments (One-to-many)
-
-
-### 2. **appointment** - Individual client bookings (main relationship table).
-
-- appointment_id (PK)
-- client_id (FK)
-- service_menu_id (FK)
-- appointment_datetime (TIMESTAMP, NOT NULL) - date & time of booking selected by the client
-- appointment_status (DEFAULT 'Confirmed', CHECK for Confirmed / Cancelled / No Show)
-
-**Relationships:**
-- Many appointments can *SELECT* one service menu option (for each appoitnment)
-
-
-### 3. **service_menu** - Lash services and styles.
-
-- service_menu_id (PK, SERIAL)
-- menu_name (e.g. Full Set Classic)
-- service_category (Full Set / Refill / Removal Only)
-- lash_style (Classic / Hybrid / Volume)
-- price (NUMERIC, CHECK > 0)
-- duration_minutes (INTEGER, CHECK > 0)
-
-
-### 4. **add_on** - Optional add-ons to appointment.
-
-- add_on_id (PK)
-- name (e.g. wispy spikes/cleanser kit)
-- price (NUMERIC, CHECK ≥ 0)
-
-
-### 5. **appointment_add_on** - Junction table linking appointments and add-ons (many-to-many).
-
-- appointment_id (FK)
-- add_on_id (FK)
-- Composite keys: appointment_id and add_on_id
-
-### Query Examples:
-
-- View all confirmed appointments this week (filter by date range)
-- Find total number of appointments per client (to review retention rates)
-- Aggregate function to calculate total revenue week/month
-- Aggregate function to calculate and count/sort client retention/loyalty visits/duration working
-- Filter refills booked less than expected retention window (<10 days/1.5 weeks)
-- Filter refills booked outside retention window (>21 days/3 weeks)
-- Filter select queries like full sets vs refills
-- Find appointment status e.g. cancelled/no-shows
-
-
-[SQL Scripts Folder](./sql-scripts/)
-
-- Test with queries
-
-### Sample Seed Data
-
-[Seed Data Folder](./seed-data/seed_data.sql)
-- Include realistic scenarios including refills after 2 weeks
-- Refills booked outside retention windows (<10 days or >3 weeks)
-- No add-ons selected for Removal Only services
-
-
-## Notes & Documentation
-
-- In `/notes/project_plan.md`, include notes for:
-  - Planning and design rationale
-  - Database schema
-  - Include constraints, explanations/justifications for tables including junction table
+- [What is a relational database? - *Amazon Web Services (AWS)*](https://aws.amazon.com/relational-database/)
+- [What is Database Normalization? - *PhoenixNAP*](https://phoenixnap.com/kb/database-normalization)
+- [Getting Started with PostgreSQ - *Medium (Parmar Shyamsinh)*](https://medium.com/@parmarshyamsinh/getting-started-with-postgresql-a-beginners-guide-bf8d55fb2ef4)
+- [PostgreSQL Subqueries - *w3resource*](https://www.w3resource.com/PostgreSQL/postgresql-subqueries.php)
+- [Aggregate Functions - *Neon PostgreSQL Tutorial*](https://neon.com/postgresql/postgresql-aggregate-functions)
+- [GROUP BY - *Neon PostgreSQL Tutorial*](https://neon.com/postgresql/postgresql-tutorial/postgresql-group-by)
+- [Joins - *Neon PostgreSQL Tutorial*](https://neon.com/postgresql/postgresql-tutorial/postgresql-joins)
+- [PostgreSQL Joins Explained - *TurorialsPoint*](https://www.tutorialspoint.com/postgresql/postgresql_using_joins.htm)
+- [SQL Execution Order - *Codecademy*](https://www.codecademy.com/article/sql-execution-order)

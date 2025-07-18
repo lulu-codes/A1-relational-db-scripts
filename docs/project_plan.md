@@ -1,88 +1,59 @@
-# Lash Business Database Project – Planning Stage (DRAFT)
+# Project Planning for Lash Appointment Database
 
-## **Lash Business Appointment System Overview**
+## Scenario Analysis:
 
-- Client books appointment selecting service and can add optional add-ons to appointment.
-- Solo lash artist
-- Clients can book for different lash services:
-  - Lash Services: Full set / Refill / Removal Only.
-  - Lash Styles: Classic / Wet Look / Hybrid / Volume.
-- Lash Removal Only is its own standalone service, not an add-on.
-- Appointment can have optional add-ons: Wispy spikes / Cleanser kit / Removal with full set.
-
-## To Do:
-
-- Detail normalisation process in notes.
-- Use draw.io to create ERD and include diagram in ERD folder.
-- ERD to include all entities and their relationships (one-to-many, many-to-many).
-- Draft table definitions and constraints.
-- Ensure ERD matches planned schema before writing scripts.
-- Write sample data and test queries.
-
-## **Data Normalisation**
-
-- Plan to normalise to at least 3NF (or higher)
-- Avoid redundancy (don’t repeat client details in every appointment).
-- Ensure each entity/table stores only related attributes.
-- Will review attributes and relationships for possible partial and transitive dependencies before finalising schema.
-
-## **ERD - Entities & Attributes**
-
-Draft
-min 5x tables:
-
-### 1. **client** - Stores client's personal/contact info.
-
-- client_id (PK, SERIAL)
-- first_name (NOT NULL)
-- last_name (NOT NULL)
-- mobile_number (VARCHAR(10))
-- email (UNIQUE)
-
-**Relationships:**
-- A Client can *BOOK* many Appointments (One-to-many)
+- Solo lash artist business structure
+- Clients book appointments by selecting an option from the Service option and makes payment
+- Service option allows clients to choose a specific service combination:
+  - Service option acts as a junction table linking:
+      - Service category: Full set / Refill / Removal Only.
+      - Lash Styles: Classic / Wet Look / Hybrid / Volume.
+      - Price
+      - Duration (in minutes)
+- Payments can be tracked by amount paid and payment status
 
 
-### 2. **appointment** - Individual client bookings (main relationship table).
+## Entities & Relationships:
 
-- appointment_id (PK)
-- client_id (FK)
-- service_menu_id (FK)
-- appointment_datetime (TIMESTAMP, NOT NULL) - date & time of booking selected by the client
-- appointment_status (DEFAULT 'Confirmed', CHECK for Confirmed / Cancelled / No Show)
+- Identify entities, attributes, relationships and business rules.
+- Design a database with at least 5 tables including one join/junction table.
+  - Clients
+  - Appointments
+  - Services + Service option (junction table)
+  - Payments
+  - Status look up tables
 
-**Relationships:**
-- Many appointments can *SELECT* one service menu option (for each appoitnment)
+## Relationship Modelling & ERD:
 
+Entity Relationship Diagram (ERD) reflecting all entities and their relationships.
+- [ERD - Conceptual diagram](../erd/conceptual-erd.drawio.png)
+- [ERD - Table](../erd/final-erd-table.drawio.png)
+- Use of appropriate keys including primary and foreign keys
 
-### 3. **service_menu** - Lash services and styles.
+## Database Design & Normalisation:
 
-- service_menu_id (PK, SERIAL)
-- menu_name  service_category VARCHAR(50) NOT NULL (e.g. Full Set Classic) =
-- service_category (Full Set / Refill / Removal Only)
-- lash_style (VARCHAR(50), NOT NULL) - (e.g. Classic / Hybrid / Volume)
-- price (NUMERIC, CHECK > 0)
-- duration_minutes (INTEGER, CHECK > 0)
+Noramalise database to Third Normal Form (3NF) to avoid data redundancy and maintain data integrity in a relational database structure.
 
+### Normalisation Steps:
+1. First Normal Form (1NF): Make everything atomic
+2. Second Normal Form (2NF): Remove partial dependencies (make sure non-key attributes depend on full PK)
+3. Third Normal Form (3NF): Remove transitive dependencies (all attributes depend directly on PK and not other non-key attributes)
 
-### 4. **add_on** - Optional add-ons to appointment.
+### Normalisation Decisions:
+- Ensured each entity/table stores only related attributes.
+- Avoided redundancy (e.g. no repeated client details in multiple appointments).
+- Reviewed data and removed any partial or transitive dependencies.
 
-- add_on_id (PK)
-- name VARCHAR(100) NOT NULL UNIQUE(e.g. wispy spikes/cleanser kit)
-- price (NUMERIC, CHECK ≥ 0)
+### Normalisation process to reduce data redundancy:
+- Initially I had `service_category` and `lash_styles` stored in the `services` table as text, however this led to repeating values appearing across the records, causing redundnacy and potential data inconsistencies.
+- To resolve this, I separated them into their own look up tables and created a junction table for `service_option` and connected them using foreign keys.
+- The `service_option` table now reflects a unique combination of the `service_categories` and `lash_styles`, each with their own corresponding price and duration (mins).
+- Price and duration belong in `service_option` table because their values depend on the full combination of both service category and lash style (not on either one independently).
+- This process removed data duplication to help maintain data consistency and also allows for flexibility to expand in future (e.g. easily add new lash styles without structural changes).
 
+## Table Outline & Attributes:
 
-### 5. **appointment_add_on** - Junction table linking appointments and add-ons (many-to-many).
-
-- appointment_id (FK)
-- add_on_id (FK)
-- Composite keys: appointment_id and add_on_id
-
-
-## Notes:
-
-Add relevant constraints:
-
+Include appropriate keys and add relevant constraints:
 - `PRIMARY KEY` – All tables have unique IDs.
 - `FOREIGN KEY` – Used to link related tables (appointments, payments, add-ons).
 - `NOT NULL` – Required fields like names, appointment datetime.
@@ -91,61 +62,109 @@ Add relevant constraints:
 - `UNIQUE` – Ensures no duplicate emails or add-on names.
 
 
-### Write SQL scripts
+**clients** - (Stores client's basic contact info)
+- client_id SERIAL PK
+- first_name VARCHAR(50) NOT NULL
+- last_name VARCHAR(50) NOT NULL
+- mobile_number VARCHAR(10) NOT NULL
+- email VARCHAR(100) UNIQUE NOT NULL
 
-Query examples:
+**service_categories** - (Look up table - Category options: Full Set, Refill, Removal)
+- service_category_id SERIAL PK
+- category_name VARCHAR(50) UNIQUE NOT NULL
+- category_description TEXT
 
-- View all confirmed appointments this week (filter by date range)
-- Find total number of appointments per client (to review retention rates)
-- Aggregate function to calculate total revenue week/month
-- Aggregate function to calculate and count/sort client retention/loyalty visits/duration working
-- Filter refills booked less than expected retention window (<10 days/1.5 weeks)
-- Filter refills booked outside retention window (>21 days/3 weeks)
-- Filter select queries like full sets vs refills
-- Find appointment status e.g. cancelled/no-shows
+**lash_styles** - (Look up table - Style options: Classic, Hybrid, Volume, N/A (for removal service))
+- lash_style_id SERIAL PK
+- style_name VARCHAR(50) UNIQUE NOT NULL
+- style_description TEXT
 
-[SQL Scripts Folder](./sql-scripts/)
+**service_options** - (Junction table - This table connects service_category and lash_styles with pricing and duration)
+- service_option_id SERIAL PK
+- service_category_id INT FK to service_categories
+- lash_style_id INT FK to lash_styles
+- price NUMERIC(8,2) NOT NULL CHECK(price > 0)
+- duration_minutes INT NOT NULL CHECK(duration_minutes > 0)
+- UNIQUE(service_category_id, lash_style_id)
+
+**appointment_statuses** - (Look up table - Status Options: Confirmed, Cancelled, No Show)
+- appointment_status_id INT PK
+- appointment_status_name VARCHAR(20) UNIQUE NOT NULL
+
+**appointments** - (Main table)
+- appointment_id SERIAL PK
+- client_id INT NOT NULL FK to clients
+- service_option_id INT NOT NULL FK to service_option
+- appointment_datetime TIMESTAMP NOT NULL
+- appointment_status_id INT NOT NULL FK to appointment_statuses DEFAULT 1 (as 'Confirmed' when booked)
+
+**payment_statuses** (Look up table - Status Options: Pending, Paid, No Payment (for cancellations/no shows))
+- payment_status_id INT (PK)
+- payment_status_name VARCHAR(20) UNIQUE NOT NULL
+
+**payments** -
+- payment_id SERIAL PK
+- appointment_id INT NOT NULL FK to appointments
+- amount_paid NUMERIC(8,2) NOT NULL CHECK(amount_paid >= 0)
+- payment_date DATE NOT NULL
+- payment_status_id INT NOT NULL FK to payment_statuses DEFAULT 1 (as 'Pending' updates to 'Paid' when client pays)
+
+**Relationships & Cardinalities:**
+- One client can book one/many appointments = `clients` - `appointments` (One-to-many)
+- One service category (Full Set, Refill, Removal) can be in many Service option entries =  `service_categories` - `service_option` (One-to-many)
+- One lash style (Classic, Hybrid,Volume) can be in many Service option entries = `lash_styles` - `service_option` (One-to-many)
+- Each unqiue Service option combination can be booked in many appointments = `service_option` - `appointments` (One-to-many)
+- One appointment status can apply to many appointments = `appointment_statuses` - `appointments` (One-to-many)
+- One appointment has one payment record = `appointments` - `payments` (One-to-one)
+- One payment status applied to many payments = `payment_statuses` - `payments` (One-to-many)
+
+
+## Write SQL scripts
 
 - Test with queries
+- Query Examples/Ideas:
+  - View all confirmed appointments this week (filter by date range)
+  - Count total number of appointments per client
+  - All appointments for a specific lash style
+  - Count of cancelled appointments
+  - Filter appointments by service category (Full Set or Refill only)
+  - Calculate sum of amount_paid where status = 'Paid'
+  - Aggregate function to calculate total revenue week/month
+  - Aggregate function to calculate and count/sort client retention/loyalty visits/duration working
+  - Filter select queries like full sets vs refills
+  - Find appointment status e.g. cancelled/no-shows
 
-### Sample Seed Data
+Requirements:
+The database script(s) your create must cover these functionalities:
+1. create the tables mapped out by the ERD
+2. create ‘seed’ data in each of the tables
+3. query a table for a single record
+4. query joined tables for a single record
+5. insert a record into a table
+6. insert a record into a table with appropriate foreign-key data
+7. update a record in a table
+8. delete a record from a table
+9. order data by a specific value
+10. calculate data based on values from tables
+11. filtering data based on a specific value
+12. usage of appropriate automated data creation such as default or auto-incrementing values
+
+
+## Sample Seed Data
 
 [Seed Data Folder](./seed-data/seed_data.sql)
 - Include realistic scenarios including refills after 2 weeks
 - Refills booked outside retention windows (<10 days or >3 weeks)
-- No add-ons selected for Removal Only services
+- Appointments for different categories and styles:
+  - Full Set x (Classic, Hybrid, Volume)
+  - Refill x (Classic, Hybrid, Volume)
+  - Removal x (N/A for lash style)
 
-## Notes & Documentation
 
-- (Update project plan - summarise design rationale)
+### Future Considerations:
+- Add cancelled_at timestamp (to track cancellation notice when enforcing cancellation policy)
+- Explore logic on how to use appointment start times and end times based on service duration to avoid overlapping appointments
+- Current project for solo lash artist but can be expanded to add additional artists
+- Loyalty program tracking
 
 
-## Assessment Checklist:
-
-**Design requirements:**
-
-The database must contain:
-
-- At least 5 tables (using 7)
-- Appropriate relationships between tables
-- At least one join/junction table (appointment_add_ons)
-- ERD representing the database
-- Database matches ERD
-- Tables normalised to 3NF or higher
-
-**Programming requirements:**
-
-The database script(s) your create must cover these functionalities:
-
-- create the tables mapped out by the ERD
-- create ‘seed’ data in each of the tables
-- query a table for a single record
-- query joined tables for a single record
-- insert a record into a table
-- insert a record into a table with appropriate foreign-key data
-- update a record in a table
-- delete a record from a table
-- order data by a specific value
-- calculate data based on values from tables
-- filtering data based on a specific value
-- usage of appropriate automated data creation such as default or auto-incrementing values
