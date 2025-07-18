@@ -118,11 +118,3 @@ CREATE TABLE payments (
     FOREIGN KEY (payment_status_id) REFERENCES payment_statuses(payment_status_id)
 );
 
-
-
--- For viewing
--- SELECT * FROM lash_styles;
--- SELECT * FROM service_categories;
--- SELECT * FROM appointment_statuses;
--- SELECT * FROM payment_statuses;
--- SELECT * FROM service_options;

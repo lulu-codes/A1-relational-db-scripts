@@ -21,8 +21,8 @@ This project fulfills the key learning outcomes and assessment criteria by apply
 - Create an Entity Relationship Diagram (ERD) that accurately reflects all entities and their relationships.
 - Use of appropriate keys including primary and foreign keys
 - Used lookup tables to support functionality and reduce redundancy.
-- [ERD - Conceptual diagram](../erd/conceptual-erd.drawio.png)
-- [ERD - Table](../erd/final-erd-table.drawio.png)
+- [ERD - Conceptual diagram](./erd/conceptual-erd.drawio.png)
+- [ERD - Table](./erd/final-erd-table.drawio.png)
 
 ### Database Design & Normalisation:
 
@@ -63,17 +63,22 @@ Develop and use SQL operations, including fundamental and complex queries to:
 - Develop complex queries which involve querying, filtering, grouping, aggregating, selecting and ordering of data.
 
 
-## Project Folder Structure:
+## Database Design & Normalisation:
 
-```
-A1-relational-db-scripts/
-├── erd/                # Diagrams for ERD
-├── sql-scripts/        # SQL scripting files
-├── seed-data/          # SQL seed data scripts and mock data
-├── docs/               # Project plan and doc notes
-├── README.md           # Project overview doc (this file)
-└── .gitignore          # To udpate
-```
+Noramalise database to Third Normal Form (3NF) to avoid data redundancy and maintain data integrity in a relational database structure.
+
+### Normalisation Decisions:
+- Ensured each entity/table stores only related attributes.
+- Avoided redundancy (e.g. no repeated client details in multiple appointments).
+- Reviewed data and removed any partial or transitive dependencies.
+
+### Normalisation process to reduce data redundancy:
+- Initially I had `service_category` and `lash_styles` stored in the `services` table as text, however this led to repeating values appearing across the records, causing redundnacy and potential data inconsistencies.
+- To resolve this, I separated them into their own look up tables and created a junction table for `service_option` and connected them using foreign keys.
+- The `service_option` table now reflects a unique combination of the `service_categories` and `lash_styles`, each with their own corresponding price and duration (mins).
+- Price and duration belong in `service_option` table because their values depend on the full combination of both service category and lash style (not on either one independently).
+- This process removed data duplication to help maintain data consistency and also allows for flexibility to expand in future (e.g. easily add new lash styles without structural changes).
+
 
 ## References & Resources Used:
 

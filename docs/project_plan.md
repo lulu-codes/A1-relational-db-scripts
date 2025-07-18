@@ -1,4 +1,16 @@
-# Project Planning for Lash Appointment Database
+# Project Planning Notes for Lash Appointment Database
+
+## Project Folder Structure:
+
+```
+A1-relational-db-scripts/
+├── erd/                # Diagrams for ERD
+├── sql-scripts/        # SQL scripting files
+├── seed-data/          # SQL seed data scripts and mock data
+├── docs/               # Project plan and doc notes
+├── README.md           # Project overview doc (this file)
+└── .gitignore          # To udpate
+```
 
 ## Scenario Analysis:
 
@@ -39,6 +51,7 @@ Noramalise database to Third Normal Form (3NF) to avoid data redundancy and main
 2. Second Normal Form (2NF): Remove partial dependencies (make sure non-key attributes depend on full PK)
 3. Third Normal Form (3NF): Remove transitive dependencies (all attributes depend directly on PK and not other non-key attributes)
 
+<!-- moved to README.md
 ### Normalisation Decisions:
 - Ensured each entity/table stores only related attributes.
 - Avoided redundancy (e.g. no repeated client details in multiple appointments).
@@ -49,8 +62,10 @@ Noramalise database to Third Normal Form (3NF) to avoid data redundancy and main
 - To resolve this, I separated them into their own look up tables and created a junction table for `service_option` and connected them using foreign keys.
 - The `service_option` table now reflects a unique combination of the `service_categories` and `lash_styles`, each with their own corresponding price and duration (mins).
 - Price and duration belong in `service_option` table because their values depend on the full combination of both service category and lash style (not on either one independently).
-- This process removed data duplication to help maintain data consistency and also allows for flexibility to expand in future (e.g. easily add new lash styles without structural changes).
+- This process removed data duplication to help maintain data consistency and also allows for flexibility to expand in future (e.g. easily add new lash styles without structural changes). -->
 
+<!--
+draft planning
 ## Table Outline & Attributes:
 
 Include appropriate keys and add relevant constraints:
@@ -107,7 +122,7 @@ Include appropriate keys and add relevant constraints:
 - appointment_id INT NOT NULL FK to appointments
 - amount_paid NUMERIC(8,2) NOT NULL CHECK(amount_paid >= 0)
 - payment_date DATE NOT NULL
-- payment_status_id INT NOT NULL FK to payment_statuses DEFAULT 1 (as 'Pending' updates to 'Paid' when client pays)
+- payment_status_id INT NOT NULL FK to payment_statuses DEFAULT 1 (as 'Pending' updates to 'Paid' when client pays) -->
 
 **Relationships & Cardinalities:**
 - One client can book one/many appointments = `clients` - `appointments` (One-to-many)
@@ -152,7 +167,7 @@ The database script(s) your create must cover these functionalities:
 
 ## Sample Seed Data
 
-[Seed Data Folder](./seed-data/seed_data.sql)
+- [Seed Data](./seed-data/create_seed_data.sql)
 - Include realistic scenarios including refills after 2 weeks
 - Refills booked outside retention windows (<10 days or >3 weeks)
 - Appointments for different categories and styles:
