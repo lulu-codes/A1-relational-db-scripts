@@ -21,7 +21,8 @@ This project fulfills the key learning outcomes and assessment criteria by apply
 - Create an Entity Relationship Diagram (ERD) that accurately reflects all entities and their relationships.
 - Use of appropriate keys including primary and foreign keys
 - Used lookup tables to support functionality and reduce redundancy.
-- [ERD](./erd/erd.md)
+- [ERD - Conceptual diagram](../erd/conceptual-erd.drawio.png)
+- [ERD - Table](../erd/final-erd-table.drawio.png)
 
 ### Database Design & Normalisation:
 
@@ -39,6 +40,7 @@ Write SQL scripts to:
   - `PRIMARY KEY`, `FOREIGN KEY`, `UNIQUE`, `CHECK`, `DEFAULT`, `SERIAL`, `NOT NULL`
 - Use appropriate automated data creation such as:
   - Use of `DEFAULT` values and auto-incrementing `SERIAL` keys
+- [Create tables](./sql-scripts/create_tables.sql)
 - [Seed Data](./seed-data/create_seed_data.sql)
 
 
