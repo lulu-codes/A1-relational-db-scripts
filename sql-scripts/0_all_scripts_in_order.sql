@@ -1,9 +1,6 @@
--- run_all_sql_scripts_in_order.sql
+-- 0_all_scripts_in_order.sql
 
 -- run this script if you want to run all sql scripts in order at once
-
--- Setup Database first - Create the database
-\i sql-scripts/0_create_database.sql
 
 -- 1. Create all tables and relationships
 \i sql-scripts/1_create_tables.sql
