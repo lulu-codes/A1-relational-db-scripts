@@ -33,6 +33,7 @@
       - [6.9 - Run aggregate function queries](#69---run-aggregate-function-queries)
       - [6.10 - Filter, group and order complex queries](#610---filter-group-and-order-complex-queries)
       - [7 - Combined steps to run all scripts](#7---combined-steps-to-run-all-scripts)
+  - [Troubleshooting](#troubleshooting)
   - [8. Back to README file](#8-back-to-readme-file)
 
 
@@ -234,10 +235,24 @@ For examples and screenshots, refer to [`db_schema.md`](/docs/db_schema.md)
 #### 7 - Combined steps to run all scripts
 
 ```psql
-\i sql-scripts/00_all_scripts_in_order.sql
+\i sql-scripts/0_all_scripts_in_order.sql
 ```
 
 ---
+
+## Troubleshooting
+
+- Ensure that you are in the project's root folder before running the sql-scripts files
+- Also if you using a custom user account, make sure you connect to the intended database (not the default) like below:
+
+```bash
+psql -U your_username -d your_database_name     # or if you named it like my db, use: psql -U your_username -d lash_appointment_system
+```
+
+- Refer to below documentation for errors creating or accessing database.
+  - [Creating a database](https://www.postgresql.org/docs/14/tutorial-createdb.html)
+  - [Create a User role](https://www.postgresql.org/docs/13/role-attributes.html)
+
 
 ## 8. Back to README file
 
