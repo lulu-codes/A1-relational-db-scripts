@@ -76,6 +76,8 @@ The database scripts were developed using CLI and Visual Studio Code. This setup
     cd A1-relational-db-scripts                                             # Navigate into directory
 ```
 
+**Important:** Run `psql` from the root of the project folder to ensure script paths work correctly.
+
 #### Step 3.2 - Install PostgreSQL
 
 - To download and install PostgreSQL, please visit [the official site](https://www.postgresql.org/download/) if not already installed.
@@ -95,13 +97,13 @@ The database scripts were developed using CLI and Visual Studio Code. This setup
 - For Linux/macOS:
 
 ```bash
-  sudo -u postgres psql
+sudo -u postgres psql
 ```
 
 - For Windows:
 
 ```bash
-  psql -U postgres
+psql -U postgres
 ```
 
 ---
