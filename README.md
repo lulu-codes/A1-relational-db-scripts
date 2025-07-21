@@ -1,22 +1,35 @@
 # DEV1002 (A1) - Relational Database Scripts
 
-## Project Overview & Purpose
+
+## Project Overview and Purpose
 
 The purpose of this project is to demonstrate my ability to design and implement a normalised relational database (to 3NF or higher), showcasing my understanding of core database concepts and ability to work with databases at a fundamental level. This includes creating SQL scripting for creating tables, using constraints to maintain data integrity, seeding data, manipulating data and fundamental and complex data queries.
 
 The relational database models simplified appointment booking and payment system for a solo lash business, inspired by a personal hobby. The database includes tables for clients, appointments, service menu (junction table), service categories and lash styles (lookup tables), and payment tracking.
 
+---
+
+## Setup and Prequisite Requirements
+
+In this relational database project, I have used PostgreSQL (version 14.8) to create my database and scripts.
+
+**What is PostgreSQL?** *PostgreSQL is an open-source, powerful, and object-relational database system.*
+
+This [`Setup Guide`](/docs/setup.md) includes the prerequisites and tech requirements, installation and setup, how to connect to PostgreSQL Database and create database by running the included scripts.
+
+---
+
 ## Key Learning Outcomes
 
 This project fulfills the key learning outcomes and assessment criteria by applying the following database concepts and practices:
 
-### Scenario Analysis:
+### 1. Scenario Analysis
 
 - Identify entities, attributes, relationships and business rules.
 - Design a database with at least 5 tables including one join/junction table.
-- [Database Planning Document & Notes](./docs/project_plan.md)
+- [Database Planning Document and Notes](./docs/project_plan.md)
 
-### Relationship Modelling:
+### 2. Relationship Modelling
 
 - Create an Entity Relationship Diagram (ERD) that accurately reflects all entities and their relationships.
 - Use of appropriate keys including primary and foreign keys
@@ -24,13 +37,13 @@ This project fulfills the key learning outcomes and assessment criteria by apply
 - [ERD - Conceptual diagram](./erd/conceptual-erd.drawio.png)
 - [ERD - Table](./erd/final-erd-table.drawio.png)
 
-### Database Design & Normalisation:
+### 3. Database Design and Normalisation
 
 - Noramalise database to Third Normal Form (3NF) to reduce redundancy and maintain data integrity.
 - Ensure atomic fields and non-transitive dependencies.
-- [Database Planning Document & Notes](./docs/project_plan.md)
+- [Database Planning Document and Notes](./docs/project_plan.md)
 
-### SQL Scripting (Used PostgreSQL v14.18):
+### 4. SQL Scripting
 
 Write SQL scripts to:
 
@@ -43,8 +56,7 @@ Write SQL scripts to:
 - [Create tables](./sql-scripts/create_tables.sql)
 - [Seed Data](./seed-data/create_seed_data.sql)
 
-
-### Data Manipulation & Querying:
+### 5. Data Manipulation and Querying
 
 Develop and use SQL operations, including fundamental and complex queries to:
 
@@ -62,38 +74,46 @@ Develop and use SQL operations, including fundamental and complex queries to:
   -  `SUM()`, `AVERAGE()`, `MIN()`, `MAX()`, `COUNT()`
 - Develop complex queries which involve querying, filtering, grouping, aggregating, selecting and ordering of data.
 
+---
 
-## Database Design & Normalisation:
+### Database Design and Normalisation
 
 Noramalise database to Third Normal Form (3NF) to avoid data redundancy and maintain data integrity in a relational database structure.
 
-### Normalisation Decisions:
+#### Normalisation Decisions
+
 - Ensured each entity/table stores only related attributes.
 - Avoided redundancy (e.g. no repeated client details in multiple appointments).
 - Reviewed data and removed any partial or transitive dependencies.
 
-### Normalisation process to reduce data redundancy:
+##### Normalisation Process
+
+###### Implemented example to reduce data redundancy
+
 - Initially I had `service_category` and `lash_styles` stored in the `services` table as text, however this led to repeating values appearing across the records, causing redundnacy and potential data inconsistencies.
 - To resolve this, I separated them into their own look up tables and created a junction table for `service_option` and connected them using foreign keys.
 - The `service_option` table now reflects a unique combination of the `service_categories` and `lash_styles`, each with their own corresponding price and duration (mins).
 - Price and duration belong in `service_option` table because their values depend on the full combination of both service category and lash style (not on either one independently).
 - This process removed data duplication to help maintain data consistency and also allows for flexibility to expand in future (e.g. easily add new lash styles without structural changes).
 
+---
 
-## References & Resources Used:
+### References and Resources Used
 
-**Online Tool to create an ERD:**
+#### Online Tool to create an ERD
 
 - [Drawio](https://www.drawio.com/)
 
-**PostgreSQL (Version 14.18) Official Documentation:**
+#### PostgreSQL Official Documentation
+
+In this project I have used PostgreSQL version 14.8.
 
 - [PostgreSQL v14.18 Main Docs](https://www.postgresql.org/docs/14/index.html)
 - [PostgreSQL Chapter 8.5. Date/Time Types](https://www.postgresql.org/docs/14/datatype-datetime.html)
 - [PostgreSQL Chapter 6. Data Manipulation](https://www.postgresql.org/docs/14/dml.html)
 - [PostgreSQL Chapter 7. Queries](https://www.postgresql.org/docs/14/queries.html)
 
-**Information Guides & Tutorials:**
+#### Information Guides and Tutorials
 
 - [What is a relational database? - *Amazon Web Services (AWS)*](https://aws.amazon.com/relational-database/)
 - [What is Database Normalization? - *PhoenixNAP*](https://phoenixnap.com/kb/database-normalization)

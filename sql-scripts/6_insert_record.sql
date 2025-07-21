@@ -1,5 +1,4 @@
 -- insert_record.sql
-
 -- insert a record into a table
 
 -- 1. add new client record for Lilly
@@ -9,7 +8,7 @@
 -- WHERE first_name = 'Lilly';
 -- (no rows)
 
--- insert Lillys record details
+-- insert Lilly's record details
 INSERT INTO clients (first_name, last_name, mobile_number, email)
 VALUES ('Lilly', 'Vo', '0412345678', 'lilly@gmail.com');
 -- (Added and queries again to check if data recorded. Lilly client_id = 11)
@@ -20,4 +19,4 @@ VALUES ('Lilly', 'Vo', '0412345678', 'lilly@gmail.com');
 INSERT INTO appointments (client_id, service_option_id, appointment_datetime, appointment_status_id)
 VALUES (11, 3, '2025-08-01 14:00', 1);
 
--- (Added new appt and checked data record in script for query_joined_tables.sql)
+-- (Added new appt and checked data record in script #2 in 5_query_joined_tables.sql)

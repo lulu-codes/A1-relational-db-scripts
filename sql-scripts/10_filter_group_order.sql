@@ -1,13 +1,11 @@
 -- filter_group_order.sql
 
+-- 3x functional complex queries which involve the selecting, filtering, grouping and ordering of data
 -- order data by a specific value
 -- calculate data based on values from tables
 -- filtering data based on a specific value
-
-
--- 3x functional complex queries which involve the selecting, filtering, grouping and ordering of data
-
 -- sql execution order: FROM > WHERE > GROUP BY > HAVING > SELECT > ORDER BY
+
 
 -- 1. filter appts by confirmed appt status for time range (for next week) and order by date
 -- SELECT * FROM appts > (JOIN) > WHERE status is 'Confirmed' > narrow down between date and > ORDER by appt date in ASC order (ASC = deafult)

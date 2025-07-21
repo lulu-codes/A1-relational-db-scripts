@@ -1,9 +1,8 @@
--- query_joined_tables.sql
-
+-- 5_query_joined_tables.sql
 -- query joined tables for a single record (2x complex queries which join tables together)
--- (also used aggregate functions)
 
--- 1. query for retrieving info for Denise's scheduled appts
+
+-- 1. query for retrieving info for Denise's scheduled appointments
 -- need client first name + appt datetime + service category + lash style
 -- from clients link join to appt > service options for appts > category name > lash style > WHERE clients name is Denise
 SELECT
@@ -18,9 +17,9 @@ JOIN service_categories sc ON so.service_category_id = sc.service_category_id
 JOIN lash_styles ls ON so.lash_style_id = ls.lash_style_id
 -- WHERE c.first_name = 'Denise'
 WHERE a.client_id = 2
--- LIMIT 1;
-ORDER BY a.appointment_datetime ASC    -- get single record (earliest appt)
-LIMIT 1;
+ORDER BY a.appointment_datetime ASC
+LIMIT 1;                               -- limit 1 record (earliest appt)
+
 
 
 -- 2. query joined tables by checking if added new appt for lilly (client_id = 11) from insert_record.sql is booked correctly for full set volume service_option = 3)
@@ -36,7 +35,7 @@ LIMIT 1;
 -- WHERE a.client_id = 11
 -- ORDER BY a.appointment_datetime;
 
--- (Complex join to check appt booked correctly)
+-- Complex join to check appt booked correctly
 SELECT
     c.first_name,
     a.appointment_datetime,

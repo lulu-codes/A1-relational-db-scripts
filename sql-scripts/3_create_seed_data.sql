@@ -1,10 +1,11 @@
--- create_seed_data.sql
+-- 3_create_seed_data.sql
 
 -- create ‘seed’ data in each of the tables
 
--- seed data for lash_styles + service_categories + appointment_statuses + payment_statuses + service_options already predefined in create tables as set fields (as part of initial db setup)
+-- SEED DATA FOR CORE TABLES:
 
 -- clients table
+
 INSERT INTO clients (first_name, last_name, mobile_number, email) VALUES
 ('Margaret', 'Johnson', '0468312193', 'margaret@gmail.com'),
 ('Denise', 'Vo', '0495598979', 'denise@gmail.com'),
@@ -16,8 +17,6 @@ INSERT INTO clients (first_name, last_name, mobile_number, email) VALUES
 ('Jessica', 'Nguyen', '0467633324', 'dorothy@gmail.com'),
 ('Teresa', 'Jones', '0487880154', 'teresa@gmail.com'),
 ('Sandra', 'Smith', '0457250645', 'sandra@gmail.com');
-
-
 
 
 -- appointment table for clients appts
@@ -59,9 +58,6 @@ INSERT INTO appointments (client_id, service_option_id, appointment_datetime, ap
 
 -- Sandra:
 (10, 3, '2025-07-17 11:15', 1);     -- Booked Full Set Volume
-
-
-
 
 
 -- payments table

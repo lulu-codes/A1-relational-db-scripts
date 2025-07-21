@@ -1,6 +1,6 @@
 -- aggregate_functions.sql
-
--- query retrieving data from database and use SUM/AVERAGE/MIN/MAX/other operation - data parsed and aggregated - refer to filter_group_order.sql for complex queries
+-- query retrieving data from database and use SUM/AVERAGE/MIN/MAX/other operation - data parsed and aggregated.
+-- Refer to 10_filter_group_order.sql for complex queries
 
 
 -- 1. calculate sum of paid amounts to work out funds received or calculate total revenue on amount_paid where status is 'Paid' in db
@@ -44,6 +44,7 @@ SELECT COUNT(*) AS cancelled_or_no_show_appts_count
 FROM appointments a
 JOIN appointment_statuses ast ON a.appointment_status_id = ast.appointment_status_id
 WHERE ast.status_name IN ('Cancelled', 'No Show');
- cancelled_or_no_show_appts_count
 
+-- cancelled_or_no_show_appts_count
+-- ----------------------------------
 -- total count = 3

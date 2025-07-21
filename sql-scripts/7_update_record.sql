@@ -1,5 +1,4 @@
 -- update_record.sql
-
 -- update a record in a table
 
 
@@ -7,6 +6,7 @@
 -- Check first:
 -- SELECT * FROM CLIENTS;
 -- Returned: 11 | Lilly      | Vo        | 0412345678    | lilly@gmail.com
+
 
 UPDATE clients
 SET first_name = 'Lily', email = 'lily@gmail.com'

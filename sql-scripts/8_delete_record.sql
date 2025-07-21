@@ -1,5 +1,4 @@
 -- delete_record.sql
-
 -- delete a record from a table
 
 
@@ -20,6 +19,7 @@
 --               9 | 2025-07-19 15:15:00  | Jennifer   | Lee
 -- (2 rows)
 
--- Just deleting Denise appt as most outdated
+
+-- Just deleting Denise's most oldest appt
 DELETE FROM appointments
 WHERE appointment_id IN (3);
